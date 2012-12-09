@@ -15,6 +15,9 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 class LineItem < ActiveRecord::Base
+
+  attr_accessible :product_id
+
   belongs_to :order
   belongs_to :product
   belongs_to :cart
