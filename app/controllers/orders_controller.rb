@@ -15,6 +15,9 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 class OrdersController < ApplicationController
+
+  skip_before_filter :authorize, :only => [:new, :create]
+
   # GET /orders
   # GET /orders.xml
   def index

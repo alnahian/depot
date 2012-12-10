@@ -14,13 +14,30 @@
 # We make no guarantees that this code is fit for any purpose. 
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
-class StoreController < ApplicationController
+require 'test_helper'
 
-  skip_before_filter :authorize
+class SessionsControllerTest < ActionController::TestCase
+  test "should get new" do
+    get :new
+    assert_response :success
+  end
 
-  def index
-    @products = Product.all
-	@cart = current_cart
+  test "should login" do
+    dave = users(:one)
+    post :create, :name => dave.name, :password => 'secret'
+    assert_redirected_to admin_url
+    assert_equal dave.id, session[:user_id]
+  end
+
+  test "should fail login" do
+    dave = users(:one)
+    post :create, :name => dave.name, :password => 'wrong'
+    assert_redirected_to login_url
+  end
+
+  test "should logout" do
+    delete :destroy
+    assert_redirected_to store_url
   end
 
 end
